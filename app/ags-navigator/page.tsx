@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 export default function AssistantPage() {
   const submitBtnRef = useRef<HTMLButtonElement>(null);
-    // Simulate human typing in the input field
+  // Simulate human typing in the input field
   function typeInput(text: string, delay: number = 40) {
     setInput("");
     let i = 0;
@@ -14,7 +14,7 @@ export default function AssistantPage() {
         const nextChar = text[i];
         setInput((prev) => prev + nextChar);
         i++;
-        setTimeout(typeNext, delay);
+        typingTimeout.current = setTimeout(typeNext, delay);
       } else {
         // Auto click submit with effect
         // Add effect to submit button
@@ -26,21 +26,26 @@ export default function AssistantPage() {
         }
         const formEl = document.querySelector("form");
         if (formEl) {
-          const event = new Event("submit", { bubbles: true, cancelable: true });
+          const event = new Event("submit", {
+            bubbles: true,
+            cancelable: true,
+          });
           setTimeout(() => formEl.dispatchEvent(event), 600);
         }
       }
     }
     if (text.length > 0) {
-      setTimeout(typeNext, delay);
+      typingTimeout.current = setTimeout(typeNext, delay);
     }
   }
+  
   const [messages, setMessages] = useState<
     { role: "user" | "bot"; text: string }[]
   >([]);
   const [lang, setLang] = useState<"vi" | "en">("en");
   const bottomRef = useRef<HTMLDivElement>(null);
   const [input, setInput] = useState<string>("");
+  const typingTimeout = useRef<ReturnType<typeof setTimeout>>();
 
   useEffect(() => {
     greet();
@@ -68,19 +73,18 @@ May I ask what you are looking to learn about:
     3. Both?`,
       },
     ]);
-
   }
 
   useEffect(() => {
     setInput("");
-    const timer = setTimeout(() => {
+    typingTimeout.current = setTimeout(() => {
       typeInput(
         lang === "vi"
           ? "Mình đã có sản phẩm rồi – đồ nội thất bằng gỗ – nhưng không rõ mặt hàng của mình có dễ bán hay phù hợp thị trường Mỹ không."
           : "I already have a product – wooden furniture – but I'm not sure if my product is easy to sell or suitable for the US market."
       );
     }, 500);
-    return () => clearTimeout(timer);
+    return () => clearTimeout(typingTimeout.current);
   }, [lang]);
 
   async function sendUser(text: string) {
@@ -130,8 +134,11 @@ May I ask what you are looking to learn about:
 📘 I can send you the registration link if you want?`,
           },
         ]);
-        typeInput(lang === "vi" ? "OK, bạn cứ gửi link Nova cho tôi. Tôi muốn học thêm trước khi bắt đầu. Tôi cũng đã điền thông tin, vui lòng kết nối với Account Manager" :
-           "OK, please send me the Nova link. I want to learn more before starting. I have also filled in the information, please connect with the Account Manager.");
+        typeInput(
+          lang === "vi"
+            ? "OK, bạn cứ gửi link Nova cho tôi. Tôi muốn học thêm trước khi bắt đầu. Tôi cũng đã điền thông tin, vui lòng kết nối với Account Manager"
+            : "OK, please send me the Nova link. I want to learn more before starting. I have also filled in the information, please connect with the Account Manager."
+        );
       }, 1000);
     }
   }
@@ -140,16 +147,24 @@ May I ask what you are looking to learn about:
     <main>
       <Navbar />
       <div className="mx-auto max-w-2xl min-h-screen flex flex-col p-4 bg-gradient-to-br from-slate-50 to-slate-200 rounded-2xl shadow-lg border border-slate-100">
-        <header className="sticky top-0 z-10 flex justify-between items-center bg-white/80 backdrop-blur border-b pb-2 mb-4 px-2 rounded-t-2xl shadow-sm">
+        <header className="sticky top-[64px] z-10 flex justify-between items-center bg-white/80 backdrop-blur border-b pb-2 mb-4 px-2 rounded-t-2xl shadow-sm">
           <h1 className="text-2xl font-bold" style={{ color: "#ff6200" }}>
             AGS Navigator
           </h1>
           <button
             onClick={() => setLang((l) => (l === "vi" ? "en" : "vi"))}
-            className="text-sm underline px-2 py-1 rounded hover:bg-blue-100 transition-colors"
+            className="text-sm px-2 py-1 rounded hover:bg-blue-100 transition-colors"
           >
-            {lang === "vi" ? "EN" : "VI"}
-          </button>
+            {lang === "vi" ? (
+              <>
+              <span role="img" aria-label="English" className="mr-1">🇬🇧</span> EN
+              </>
+            ) : (
+              <>
+              <span role="img" aria-label="Vietnamese" className="mr-1">🇻🇳</span> VI
+              </>
+            )}
+          </button> 
         </header>
 
         <div className="flex-1 overflow-y-auto space-y-3 mb-4 px-1 py-2 ">
@@ -179,20 +194,25 @@ May I ask what you are looking to learn about:
           onSubmit={(e) => {
             e.preventDefault();
             sendUser(input);
-            }}
-            className="flex gap-2 items-center bg-white rounded-xl shadow-lg px-3 py-3 border border-slate-200"
-            style={{ position: "sticky", bottom: 0 }}
-            >
-            <textarea
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder={
+          }}
+          className="flex gap-2 items-center bg-white rounded-xl shadow-lg px-3 py-3 border border-slate-200"
+          style={{ position: "sticky", bottom: 0 }}
+        >
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder={
               lang === "vi" ? "Nhập câu hỏi của bạn…" : "Type your question…"
-              }
-              className="flex-1 rounded-xl border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all resize-none"
-              style={{ wordBreak: "break-word", whiteSpace: "pre-wrap", minHeight: 48, maxHeight: 120 }}
-              rows={2}
-            />
+            }
+            className="flex-1 rounded-xl border px-3 py-2 text-base focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all resize-none"
+            style={{
+              wordBreak: "break-word",
+              whiteSpace: "pre-wrap",
+              minHeight: 48,
+              maxHeight: 120,
+            }}
+            rows={2}
+          />
           <button
             type="submit"
             ref={submitBtnRef}

@@ -22,7 +22,13 @@ export default function Hero() {
           <p className="mt-6 text-lg text-[#232f3e] max-w-xl">
             Đăng ký bán hàng trên Amazon để phát triển thương hiệu, mở rộng kinh doanh và nhận hỗ trợ chuyên sâu từ đội ngũ Amazon Việt Nam.
           </p>
-          <div className="mt-8 flex gap-4">
+          <div className="mt-8 flex gap-4 items-center relative">
+            <div className="absolute -top-10 left-1/2 -translate-x-1/2 flex flex-col items-center z-20 pointer-events-none">
+              <span className="text-[#ff6200] font-bold text-lg animate-bounce">Click here</span>
+              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff6200" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="animate-bounce">
+                <path d="M12 5v14M12 19l-7-7M12 19l7-7" />
+              </svg>
+            </div>
             <a href="#signup" className="rounded-xl bg-[#ff6200] text-white px-6 py-3 text-lg font-bold shadow hover:bg-[#f90]">Đăng ký ngay</a>
             <a href="/ags-navigator" className="rounded-xl border border-[#232f3e] text-[#232f3e] px-6 py-3 text-lg font-bold flex items-center gap-2 hover:bg-[#232f3e] hover:text-white transition blink-highlight">
                 <svg width="48" height="48" viewBox="0 0 24 24">
