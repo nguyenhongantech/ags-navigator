@@ -7,7 +7,6 @@ import Fees from "@/components/sections/Fees";
 import FAQ from "@/components/sections/FAQ";
 import Signup from "@/components/sections/Signup";
 import Footer from "@/components/sections/Footer";
-import ChatbotWidget from "@/components/chat/ChatbotWidget";
 
 export default function LandingPage() {
   return (

@@ -1,4 +1,6 @@
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next"
+
 
 export const metadata = {
   title: "Amazon Global Selling Việt Nam - Bán hàng toàn cầu - Sell on Amazon",
@@ -16,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen bg-[#f3f3f3] text-[#232f3e] font-sans" style={{ fontFamily: 'Amazon Ember, Arial, sans-serif' }}>
         {children}
+        <Analytics />
       </body>
     </html>
   );
