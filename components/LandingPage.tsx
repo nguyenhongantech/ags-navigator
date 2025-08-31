@@ -21,7 +21,6 @@ export default function LandingPage() {
       <FAQ />
       <Signup />
       <Footer />
-      <ChatbotWidget />
     </div>
   );
 }

@@ -46,7 +46,7 @@ export default function Signup() {
             <option>Beauty</option>
             <option>Home</option>
           </select>
-          <button type="submit" className="rounded-xl bg-[#ff9900] text-white px-6 py-4 text-lg font-bold shadow hover:bg-[#f90] transition">
+          <button type="submit" className="rounded-xl bg-[#ff6200] text-white px-6 py-4 text-lg font-bold shadow hover:bg-[#f90] transition">
             Đăng ký tư vấn
           </button>
           {ok === true && <div className="text-xs text-green-600">Đã nhận thông tin, chúng tôi sẽ liên hệ sớm.</div>}

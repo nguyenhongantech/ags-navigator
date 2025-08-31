@@ -16,7 +16,7 @@ export default function Navbar() {
           <a href="#faq" className="hover:text-[#232f3e] text-[#232f3e]">FAQ</a>
         </nav>
         <div className="flex items-center gap-2">
-          <a href="#signup" className="hidden md:inline-flex rounded-xl bg-[#ff9900] text-white px-4 py-2 text-sm font-bold shadow hover:bg-[#f90] transition">Đăng ký</a>
+          <a href="#signup" className="hidden md:inline-flex rounded-xl bg-[#ff6200] text-white px-4 py-2 text-sm font-bold shadow hover:bg-[#f90] transition">Đăng ký</a>
           <button onClick={() => setOpen(v => !v)} className="md:hidden rounded-xl border px-3 py-2 text-sm">Menu</button>
         </div>
       </div>
@@ -27,7 +27,7 @@ export default function Navbar() {
             <a href="#how" className="text-[#232f3e]">Cách hoạt động</a>
             <a href="#fees" className="text-[#232f3e]">Phí</a>
             <a href="#faq" className="text-[#232f3e]">FAQ</a>
-            <a href="#signup" className="rounded-xl bg-[#ff9900] text-white px-4 py-2 font-bold shadow hover:bg-[#f90] transition">Đăng ký</a>
+            <a href="#signup" className="rounded-xl bg-[#ff6200] text-white px-4 py-2 font-bold shadow hover:bg-[#f90] transition">Đăng ký</a>
           </nav>
         </div>
       )}
